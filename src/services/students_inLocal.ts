@@ -1,10 +1,6 @@
 const STORAGE_KEY = "students";
 
-interface Student {
-  id: number;
-  name: string;
-  age: number;
-}
+import { Student } from '../interfaces/student';
 
 // localStorage handlers
 

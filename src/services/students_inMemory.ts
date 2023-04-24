@@ -1,14 +1,10 @@
-interface Student {
-  id: number;
-  name: string;
-  age: number;
-}
+import { Student } from '../interfaces/student';
 
 // seeds students with data
 const students: Student[] = [
-  { id: 1, name: "John Doe", age: 20 },
-  { id: 2, name: "Jane Doe", age: 22 },
-  { id: 3, name: "Bob Smith", age: 19 },
+  { id: 1, name: "joão", age: 20, email: "joão@email.com" },
+  { id: 2, name: "ana", age: 21, email: "ana@email.com" },
+  { id: 3, name: "arthur", age: 22, email: "arthur@email.com" },
 ];
 
 // CRUD of students
