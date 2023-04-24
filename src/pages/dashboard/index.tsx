@@ -1,9 +1,11 @@
 import React from "react";
+import Appbar from '../../components/appbar';
 
 const Dashboard: React.FC = () => {
   return (
     <>
-      <p>dashboard</p>
+      <Appbar />
+      <p>dashboardd</p>
     </>
   )
 }
