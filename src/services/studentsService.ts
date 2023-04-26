@@ -1,5 +1,5 @@
-// import * as storage from './storage/students_inLocal';
-import * as storage from './storage/students_inMemory';
+import * as storage from './storage/students_inLocal';
+// import * as storage from './storage/students_inMemory';
 import { Student } from '../interfaces/student';
 
 export const getStudents = async () => {

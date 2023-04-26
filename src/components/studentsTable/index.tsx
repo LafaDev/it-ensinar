@@ -12,7 +12,7 @@ import {
 import TableUpdateForm from '../updateForm';
 
 import { StudentsContext } from '../../services/context/StudentsProvider';
-import { getStudents } from '../../services/studentsService';
+import { getStudents, deleteStudent, updateStudent } from '../../services/studentsService';
 import { Student } from '../../interfaces/student';
 
 const StudentsTable: React.FC = () => {
@@ -23,15 +23,24 @@ const StudentsTable: React.FC = () => {
 
   const keys = students?.length > 0 ? Object.keys(students[0]) : [];
   
-  const handleDelete = () => {
-    console.log('deleete')
-    console.log(students);
+  const handleDelete = async (id: number | undefined) => {
+    await deleteStudent(Number(id));
+    const newStu = students.filter(st => st.id !== id)
+    setStudents(newStu as Student[]);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setEditingStudent(false);
     console.log('cancel')
+  };
+
+  const handleUpdate = async (upStudent: Student) => {
+    await updateStudent(upStudent);
+    setStudents([...students, upStudent])
+
+    setIsEditing(false);
+    setEditingStudent(false);
   };
 
   useEffect(() => {
@@ -67,16 +76,16 @@ const StudentsTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {students.map((studentRow, index) => {
+          {students.map((studentRow) => {
             const { id, name, age, email }  = studentRow;
             return (
             <TableRow
-              key={ index }
+              key={ id }
               sx={ { border: 0 } }
             >
             {
               isEditing && editingStudent.id === id ? (
-                <TableUpdateForm onUpdate={() => { return }} onCancel={handleCancel} student={editingStudent} />
+                <TableUpdateForm onUpdate={handleUpdate} onCancel={handleCancel} student={editingStudent} />
               ) : (
                 <>
                   <TableCell
@@ -179,7 +188,7 @@ const StudentsTable: React.FC = () => {
                       } }
                       variant="contained"
                       id={ email }
-                      onClick={ handleDelete }
+                      onClick={ () => handleDelete(id) }
                     >
                       Excluir
                     </Button>

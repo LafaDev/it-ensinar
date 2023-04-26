@@ -18,13 +18,26 @@ const TableUpdateForm: React.FC<TableUpdateFormProps> = ({
   onCancel,
 }) => {
   const [updatedStudent, setUpdatedStudent] = useState(student);
+  const [invalidEmail, setInvalidEmail] = useState<boolean>(false);
 
-  const handleUpdate = (): void => {
+  const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
     onUpdate(updatedStudent);
   };
 
   const handleCancel = (): void => {
     onCancel();
+  };
+
+  const validateForm = (): boolean => {
+    const { name, age, email } = updatedStudent;
+
+    return !invalidEmail
+    && name !== ''
+    && age !== 0
+    && email !== ''
+    && name.length >= 3
+    && updatedStudent !== student;
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,22 +53,25 @@ const TableUpdateForm: React.FC<TableUpdateFormProps> = ({
     const age: string = event.target.value;
     const ageRegex = /^(?:1[0-1][0-9]|12[0-2]|[1-9][0-9]?[^.]?)$/;
 
-    if (ageRegex.test(age) && Number(age) >= 0 && Number(age) <= 122) {
+    if (ageRegex.test(age) && Number(age) > 0 && Number(age) <= 122) {
       setUpdatedStudent(prevState => ({ ...prevState, age: Number(age) }));
     }
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const email: string = event.target.value;
-    // const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
     setUpdatedStudent(prevState => ({ ...prevState, email }));
+    
+    if (emailRegex.test(email) || email === '') {
+      setInvalidEmail(false);
+    } else {
+      setInvalidEmail(true);
+    }
   };
 
   return (
-    // <TableRow
-    //   sx={{ border: 0 }}
-    // >
     <>
       <TableCell
        className="id"
@@ -129,9 +145,10 @@ const TableUpdateForm: React.FC<TableUpdateFormProps> = ({
         component="td"
         scope="row"
         sx={ {
-          backgroundColor: '#1B5E20',
+          backgroundColor: '#046CF9',
           borderBottomLeftRadius: '10px',
           borderTopLeftRadius: '10px',
+          color: 'white',
           width: '40px',
           fontSize: '16px',
           verticalAlign: 'middle'
@@ -139,8 +156,10 @@ const TableUpdateForm: React.FC<TableUpdateFormProps> = ({
         align="center"
       >
         <Button
+        sx={{ color: 'white' }}
           variant="contained"
-          color="success"
+          color="secondary"
+          disabled={ !validateForm() }
           onClick={handleUpdate}
         >
           Atualizar

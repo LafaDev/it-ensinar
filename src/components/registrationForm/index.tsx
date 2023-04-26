@@ -16,7 +16,7 @@ const RegistrationForm: React.FC = () => {
   const [newStudent, setNewStudent] = useState<Student>({
     name: '',
     email: '',
-    age: 0
+    age: 1
   });
 
   const [invalidEmail, setInvalidEmail] = useState<boolean>(false);
@@ -29,7 +29,8 @@ const RegistrationForm: React.FC = () => {
     return !invalidEmail
     && name !== ''
     && age !== 0
-    && email !== '';
+    && email !== ''
+    && name.length >= 3;
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {

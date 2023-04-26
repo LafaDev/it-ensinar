@@ -1,8 +1,10 @@
 import { Student } from '../../interfaces/student';
 
+let idCounter = 3;
+
 // seeds students with data
 const students: Student[] = [
-  { id: 1, name: "joão", age: 20, email: "joão@email.com" },
+  { id: 1, name: "joão", age: 20, email: "joao@email.com" },
   { id: 2, name: "ana", age: 21, email: "ana@email.com" },
   { id: 3, name: "arthur", age: 22, email: "arthur@email.com" },
 ];
@@ -20,7 +22,8 @@ export function readStudent(id: number): Promise<Student | undefined> {
 }
 
 export function createStudent(student: Student): Promise<Student> {
-  const newStudent = { ...student, id: students.length + 1 };
+  const newStudent = { ...student, id: idCounter + 1 };
+  idCounter += 1;
 
   students.push(newStudent);
 
