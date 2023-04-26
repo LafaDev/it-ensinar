@@ -19,6 +19,8 @@ const StudentsTable: React.FC = () => {
   const { students, setStudents } = useContext(StudentsContext);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  {/* <boolean | Student | (() => boolean | Student)> */}
   const [editingStudent, setEditingStudent] = useState<any>({});
 
   const keys = students?.length > 0 ? Object.keys(students[0]) : [];
@@ -44,7 +46,7 @@ const StudentsTable: React.FC = () => {
   };
 
   useEffect(() => {
-    getStudents().then((thuds) => setStudents(thuds as Student[]))
+    getStudents().then((students_data) => setStudents(students_data as Student[]))
   });
 
   return ( 

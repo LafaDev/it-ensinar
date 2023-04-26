@@ -20,9 +20,17 @@ export const getStudent = async (id: number) => {
   }
 }
 
+export const getStudentByEmail = async (email: string) => {
+  try {
+    const response = await storage.readStudentByEmail(email); 
+    return response?.email;
+  } catch (error) {
+    console.log(`there was an error: ${error}`);  
+  }
+}
+
 export const createStudent = async (student: Student) => {
   try {
-    console.log('service creating')
     const test = await storage.createStudent(student);
     return test;
   } catch (error) {

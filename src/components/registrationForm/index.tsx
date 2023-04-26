@@ -9,7 +9,7 @@ import {
 
 import { Student } from '../../interfaces/student';
 import { StudentsContext } from '../../services/context/StudentsProvider';
-import { createStudent } from '../../services/studentsService';
+import { createStudent, getStudentByEmail } from '../../services/studentsService';
 import "./registration.css";
 
 const RegistrationForm: React.FC = () => {
@@ -20,8 +20,8 @@ const RegistrationForm: React.FC = () => {
   });
 
   const [invalidEmail, setInvalidEmail] = useState<boolean>(false);
+  const [existingEmail, setExistingEmail] = useState<boolean>(false);
   const { setStudents } = useContext(StudentsContext);
-
 
   const validateForm = (): boolean => {
     const { name, age, email } = newStudent;
@@ -54,8 +54,10 @@ const RegistrationForm: React.FC = () => {
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const email: string = event.target.value;
+  
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g
   
+    if(existingEmail) setExistingEmail(false);
     setNewStudent(prevState => ({ ...prevState, email }));
   
     if (emailRegex.test(email) || email === '') {
@@ -67,6 +69,11 @@ const RegistrationForm: React.FC = () => {
 
   const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const { email } = newStudent;
+
+    const existingEmail = await getStudentByEmail(email);
+    if (existingEmail === email) return setExistingEmail(true);
+
     const createdStudent = await createStudent(newStudent);
     // setNewStudent({ name: '', age: 0, email: '' });
     setStudents((studs) => [...studs, createdStudent] as Student[]);
@@ -129,6 +136,18 @@ const RegistrationForm: React.FC = () => {
             error={invalidEmail}
             helperText={invalidEmail ? "Email invalido!" : null}
           />
+          {
+            existingEmail && (
+              <Typography
+                variant="caption"
+                gutterBottom
+                display="block"
+                sx={{ fontWeight: "bold", mt: 0.4 }}
+              >
+                email já registrado!
+              </Typography>
+            )
+          } 
         </Grid>
         <Grid item>
           <Button

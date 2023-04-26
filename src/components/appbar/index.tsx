@@ -12,7 +12,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 
-function AppHeader() {
+const AppHeader: React.FC = () => {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">

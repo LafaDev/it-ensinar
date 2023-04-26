@@ -21,6 +21,12 @@ export function readStudent(id: number): Promise<Student | undefined> {
   return Promise.resolve(student);
 }
 
+export function readStudentByEmail(email: string): Promise<Student | undefined> {
+  const student = students.find((s) => s.email === email);
+
+  return Promise.resolve(student);
+}
+
 export function createStudent(student: Student): Promise<Student> {
   const newStudent = { ...student, id: idCounter + 1 };
   idCounter += 1;
