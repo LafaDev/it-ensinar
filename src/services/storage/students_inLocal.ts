@@ -1,6 +1,6 @@
 import { Student } from '../../interfaces/student';
 
-let idCounter = Number(localStorage.getItem('idCounter')) || 3;
+let idCounter = Number(localStorage.getItem('idCounter')) || 0;
 
 // seeds students with data
 const students: Student[] = JSON.parse(localStorage.getItem('students') || '[]');
