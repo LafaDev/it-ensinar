@@ -1,6 +1,6 @@
 const STORAGE_KEY = "students";
 
-import { Student } from '../interfaces/student';
+import { Student } from '../../interfaces/student';
 
 // localStorage handlers
 

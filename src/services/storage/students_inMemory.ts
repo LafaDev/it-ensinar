@@ -1,4 +1,4 @@
-import { Student } from '../interfaces/student';
+import { Student } from '../../interfaces/student';
 
 // seeds students with data
 const students: Student[] = [

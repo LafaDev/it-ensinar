@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Button,
   Container,
@@ -8,6 +8,9 @@ import {
 } from '@mui/material';
 
 import { Student } from '../../interfaces/student';
+import { StudentsContext } from '../../services/context/StudentsProvider';
+import { createStudent } from '../../services/studentsService';
+import "./registration.css";
 
 const RegistrationForm: React.FC = () => {
   const [newStudent, setNewStudent] = useState<Student>({
@@ -17,6 +20,7 @@ const RegistrationForm: React.FC = () => {
   });
 
   const [invalidEmail, setInvalidEmail] = useState<boolean>(false);
+  const { setStudents } = useContext(StudentsContext);
 
 
   const validateForm = (): boolean => {
@@ -60,8 +64,11 @@ const RegistrationForm: React.FC = () => {
     }
   };
 
-  const handleRegister = (): void => {
-    console.log('teste');
+  const handleRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const createdStudent = await createStudent(newStudent);
+    // setNewStudent({ name: '', age: 0, email: '' });
+    setStudents((studs) => [...studs, createdStudent] as Student[]);
   }
 
   return(
